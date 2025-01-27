@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SSL/TLS Monitor</title>
+  <style>
+    body {
+      width: 300px;
+      padding: 10px;
+      font-family: Arial, sans-serif;
+    }
+    .status {
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    .secure {
+      color: green;
+    }
+    .insecure {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <h2>SSL/TLS Info</h2>
+  <div id="sslStatus" class="status">Checking SSL status...</div>
+  <div id="certificateIssuer" class="status"></div>
+  <div id="validUntil" class="status"></div>
+
+  <script>
+    // Fetch SSL/TLS info from background script
+    chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+      if (message.action === "fetchSSL") {
+        chrome.runtime.sendMessage({ action: "checkSSL" }, (response) => {
+          if (response.isSecure) {
+            document.getElementById('sslStatus').textContent = "This page is secure.";
+            document.getElementById('sslStatus').classList.add('secure');
+            document.getElementById('certificateIssuer').textContent = "Issuer: " + response.certificateIssuer;
+            document.getElementById('validUntil').textContent = "Valid Until: " + response.validUntil;
+          } else {
+            document.getElementById('sslStatus').textContent = "This page is not secure!";
+            document.getElementById('sslStatus').classList.add('insecure');
+            document.getElementById('certificateIssuer').textContent = "Issuer: Unknown";
+            document.getElementById('validUntil').textContent = "Valid Until: Unknown";
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>
