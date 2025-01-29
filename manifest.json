@@ -1,37 +1,15 @@
 {
-    "manifest_version": 3,
-    "name": "SSL/TLS Monitor",
-    "version": "1.0",
-    "description": "A Chrome extension to monitor SSL/TLS certificates and security details.",
-    "permissions": [
-      "tabs",
-      "activeTab",
-      "storage"
-    ],
-    "background": {
-      "service_worker": "background.js"
-    },
-    "content_scripts": [
-      {
-        "matches": ["<all_urls>"],
-        "js": ["content.js"]
-      }
-    ],
-    "action": {
-      "default_popup": "popup.html",
-      "default_icon": {
-        "16": "SSL Checker Extension.png",
-        "48": "SSL Checker Extension.png",
-        "128": "SSL Checker Extension.png"
-      }
-    },
-    "icons": {
-      "16": "SSL Checker Extension.png",
-      "48": "SSL Checker Extension.png",
-      "128": "SSL Checker Extension.png"
-    }
+  "manifest_version": 3,
+  "name": "SSL Checker Extension",
+  "version": "1.0",
+  "description": "Check the SSL security status of websites.",
+  "permissions": ["tabs", "activeTab", "scripting"],
+  "host_permissions": ["https://*/*"],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "SSL Checker Extension.png"
   }
-  
-  
-  
-  
+}
